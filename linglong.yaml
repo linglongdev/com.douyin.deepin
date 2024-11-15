@@ -1,0 +1,39 @@
+version: "1"
+
+package:
+  id: com.douyin.deepin
+  name: com.douyin.deepin
+  version: 1.0.0.0
+  kind: app
+  description: |
+    signed_com.douyin.deepin_3.6.4.14219deepin3_amd64.deb
+
+base: org.deepin.base.wine/23.2.0
+runtime: org.deepin.runtime.wine/23.2.1
+
+command:
+  - /opt/apps/com.douyin.deepin/files/run.sh
+
+sources:
+  - kind: file
+    url: https://winedata-dev.deepin.com/apps/com.douyin.deepin/9565d4a/signed_com.douyin.deepin_3.6.4.14219deepin3_amd64.deb
+    digest: 980c774b6aeee5dcae561f70f4965291ba0d9e506cc39e6a7593f78078d46d52
+
+build: |
+  set -x
+  SOURCES="linglong/sources"
+  dpkg-deb -x $SOURCES/signed_com.douyin.deepin_3.6.4.14219deepin3_amd64.deb $SOURCES/com.douyin.deepin
+  # run.sh替换
+  FILE_PATH="$SOURCES/com.douyin.deepin/opt/apps/com.douyin.deepin/files/run.sh" 
+  sed -i -e 's|/opt/deepin-wine8-stable|/runtime/deepin-wine8-stable|g' \
+         -e 's|/opt/deepin-wine6-stable|/runtime/deepin-wine6-stable|g' \
+         -e 's|/opt/deepinwine|/runtime/deepinwine|g' \
+         -e 's|/opt/deepin-box86|/runtime/deepin-box86|g' \
+         -e 's|BOTTLEPATH="$HOME/.deepinwine/$BOTTLENAME"|BOTTLEPATH="$HOME/.linglong/$BOTTLENAME"|g' "$FILE_PATH"
+   
+  install -d $PREFIX/share
+  install -d $PREFIX/bin
+  # move files
+  cp -r $SOURCES/com.douyin.deepin/opt/apps/com.douyin.deepin/entries/* $PREFIX/share
+  cp -r $SOURCES/com.douyin.deepin/opt/apps/com.douyin.deepin/files/* $PREFIX
+  
