@@ -3,10 +3,11 @@ version: "1"
 package:
   id: com.douyin.deepin
   name: com.douyin.deepin
-  version: 1.0.0.0
+  version: 1.0.0.2
   kind: app
   description: |
-    signed_com.douyin.deepin_3.6.4.14219deepin3_amd64.deb
+    com.douyin.deepin_3.6.4.14219deepin6_amd64.deb
+
 
 base: org.deepin.base.wine/23.2.0
 runtime: org.deepin.runtime.wine/23.2.1
@@ -16,13 +17,15 @@ command:
 
 sources:
   - kind: file
-    url: https://winedata-dev.deepin.com/apps/com.douyin.deepin/9565d4a/signed_com.douyin.deepin_3.6.4.14219deepin3_amd64.deb
-    digest: 980c774b6aeee5dcae561f70f4965291ba0d9e506cc39e6a7593f78078d46d52
+    url: https://winedata-dev.deepin.com/apps/com.douyin.deepin/d1be8c4/com.douyin.deepin_3.6.4.14219deepin6_amd64.deb
+    digest: 469dea1166a5c65a18fd684cd7d9505f93eb3bf76c2f01cfa2e984c4a9cb64aa
+
 
 build: |
   set -x
   SOURCES="linglong/sources"
-  dpkg-deb -x $SOURCES/signed_com.douyin.deepin_3.6.4.14219deepin3_amd64.deb $SOURCES/com.douyin.deepin
+  dpkg-deb -x $SOURCES/com.douyin.deepin_3.6.4.14219deepin6_amd64.deb $SOURCES/com.douyin.deepin
+
   # run.sh替换
   FILE_PATH="$SOURCES/com.douyin.deepin/opt/apps/com.douyin.deepin/files/run.sh" 
   sed -i -e 's|/opt/deepin-wine8-stable|/runtime/deepin-wine8-stable|g' \
